@@ -122,6 +122,8 @@ app.post('/tts', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server Running`)
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
