@@ -53,7 +53,7 @@ var sensorDatas = {
 
 app.post('/updateDatas', (req, res) => {
   datas = req.body.newDatas
-  //console.log(datas)
+  console.log(datas)
   res.status(200).json({message:"successful"})
 })
 
