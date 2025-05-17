@@ -39,6 +39,13 @@
                 <div class="control-grid">
                     <div class="control-box">
                         <h3>LED Kontrolü</h3>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="led-toggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">LED Açık/Kapalı</span>
+                        </div>
                         <div class="speed-controls">
                             <p>LED Parlaklık:</p>
                             <div class="button-group">
@@ -51,6 +58,13 @@
                     
                     <div class="control-box">
                         <h3>Fan Kontrolü</h3>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="fan-toggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Fan Açık/Kapalı</span>
+                        </div>
                         <div class="speed-controls">
                             <p>Fan Hızı:</p>
                             <div class="button-group">
@@ -63,12 +77,39 @@
                     
                     <div class="control-box">
                         <h3>SG90 Servo Motor</h3>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="sg90-toggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Servo Açık/Kapalı</span>
+                        </div>
                         <div class="speed-controls">
                             <p>Derece:</p>
                             <div class="button-group">
                                 <button class="speed-btn" id="sg90-0">0°</button>
                                 <button class="speed-btn" id="sg90-90">90°</button>
                                 <button class="speed-btn" id="sg90-180">180°</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Yeni eklenen Peltier kontrolü -->
+                    <div class="control-box">
+                        <h3>Peltier Kontrolü</h3>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="peltier-toggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="toggle-label">Peltier Açık/Kapalı</span>
+                        </div>
+                        <div class="speed-controls">
+                            <p>Peltier Gücü:</p>
+                            <div class="button-group">
+                                <button class="speed-btn" id="peltier-slow">Düşük</button>
+                                <button class="speed-btn" id="peltier-medium">Orta</button>
+                                <button class="speed-btn" id="peltier-fast">Yüksek</button>
                             </div>
                         </div>
                     </div>

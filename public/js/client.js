@@ -1,22 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Kontrol durumunu izleyen değişkenler
+    // Kontrol durumunu izleyen değişkenler (güncellenmiş - peltier eklendi)
     let controlState = {
-        led_speed: 0,  // 0: yavaş, 1: orta, 2: hızlı
-        fan_speed: 0,  // 0: yavaş, 1: orta, 2: hızlı
-        sg90_angle: 0, // 0: 0 derece, 1: 90 derece, 2: 180 derece
+        led: 0,           // 0: kapalı, 1: açık
+        led_speed: 0,     // 0: yavaş, 1: orta, 2: hızlı
+        fan: 0,           // 0: kapalı, 1: açık
+        fan_speed: 0,     // 0: yavaş, 1: orta, 2: hızlı
+        sg90: 0,          // 0: kapalı, 1: açık
+        sg90_angle: 0,    // 0: 0 derece, 1: 90 derece, 2: 180 derece
+        peltier: 0,       // 0: kapalı, 1: açık
+        peltier_speed: 0, // 0: düşük, 1: orta, 2: yüksek
         voice_text: ""
     };
   
     // DOM elementlerini seçme
+    const ledToggle = document.getElementById('led-toggle');
     const ledSlow = document.getElementById('led-slow');
     const ledMedium = document.getElementById('led-medium');
     const ledFast = document.getElementById('led-fast');
+    
+    const fanToggle = document.getElementById('fan-toggle');
     const fanSlow = document.getElementById('fan-slow');
     const fanMedium = document.getElementById('fan-medium');
     const fanFast = document.getElementById('fan-fast');
+    
+    const sg90Toggle = document.getElementById('sg90-toggle');
     const sg90_0 = document.getElementById('sg90-0');
     const sg90_90 = document.getElementById('sg90-90');
     const sg90_180 = document.getElementById('sg90-180');
+    
+    // Yeni eklenen peltier kontrolleri
+    const peltierToggle = document.getElementById('peltier-toggle');
+    const peltierSlow = document.getElementById('peltier-slow');
+    const peltierMedium = document.getElementById('peltier-medium');
+    const peltierFast = document.getElementById('peltier-fast');
+    
     const voiceText = document.getElementById('voice-text');
     const sendVoice = document.getElementById('send-voice');
   
@@ -128,9 +145,43 @@ document.addEventListener('DOMContentLoaded', function() {
         sg90_0.classList.toggle('active', controlState.sg90_angle === 0);
         sg90_90.classList.toggle('active', controlState.sg90_angle === 1);
         sg90_180.classList.toggle('active', controlState.sg90_angle === 2);
+        
+        // Peltier hız butonları
+        peltierSlow.classList.toggle('active', controlState.peltier_speed === 0);
+        peltierMedium.classList.toggle('active', controlState.peltier_speed === 1);
+        peltierFast.classList.toggle('active', controlState.peltier_speed === 2);
+    }
+    
+    // Toggle butonlarının durumlarını güncelleyen fonksiyon
+    function updateToggleButtons() {
+        ledToggle.checked = controlState.led === 1;
+        fanToggle.checked = controlState.fan === 1;
+        sg90Toggle.checked = controlState.sg90 === 1;
+        peltierToggle.checked = controlState.peltier === 1;
     }
   
-    // Event listener'ları ayarlama
+    // Event listener'ları ayarlama - Toggle switchler
+    ledToggle.addEventListener('change', function() {
+        controlState.led = this.checked ? 1 : 0;
+        sendControlData();
+    });
+    
+    fanToggle.addEventListener('change', function() {
+        controlState.fan = this.checked ? 1 : 0;
+        sendControlData();
+    });
+    
+    sg90Toggle.addEventListener('change', function() {
+        controlState.sg90 = this.checked ? 1 : 0;
+        sendControlData();
+    });
+    
+    peltierToggle.addEventListener('change', function() {
+        controlState.peltier = this.checked ? 1 : 0;
+        sendControlData();
+    });
+  
+    // Event listener'ları ayarlama - LED hız butonları
     ledSlow.addEventListener('click', function() {
         controlState.led_speed = 0;
         updateSpeedButtons();
@@ -149,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sendControlData();
     });
   
+    // Event listener'ları ayarlama - Fan hız butonları
     fanSlow.addEventListener('click', function() {
         controlState.fan_speed = 0;
         updateSpeedButtons();
@@ -167,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sendControlData();
     });
   
+    // Event listener'ları ayarlama - SG90 açı butonları
     sg90_0.addEventListener('click', function() {
         controlState.sg90_angle = 0;
         updateSpeedButtons();
@@ -184,7 +237,27 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSpeedButtons();
         sendControlData();
     });
+    
+    // Event listener'ları ayarlama - Peltier hız butonları
+    peltierSlow.addEventListener('click', function() {
+        controlState.peltier_speed = 0;
+        updateSpeedButtons();
+        sendControlData();
+    });
+    
+    peltierMedium.addEventListener('click', function() {
+        controlState.peltier_speed = 1;
+        updateSpeedButtons();
+        sendControlData();
+    });
+    
+    peltierFast.addEventListener('click', function() {
+        controlState.peltier_speed = 2;
+        updateSpeedButtons();
+        sendControlData();
+    });
   
+    // Event listener'ları ayarlama - Ses metni gönderme
     sendVoice.addEventListener('click', function() {
         const text = voiceText.value;
         if (text) {
@@ -196,10 +269,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
     // İlk yükleme
     updateSpeedButtons();
+    updateToggleButtons();
     
     // Periyodik olarak sensör verilerini güncelle (her yarım saniyede bir)
     setInterval(updateSensorData, 500);
     
     // Sayfa ilk yüklendiğinde bir kez sensör verilerini al
     updateSensorData();
-  });
+});

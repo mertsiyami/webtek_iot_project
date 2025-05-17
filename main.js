@@ -24,24 +24,20 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
   // Örnek veriler (bu veriler ESP32'den alınabilir)
-  const datas = {
-    led: true,  // LED'in açık olduğunu varsayalım
-    fan: false, // Fan kapalı
-    ledSpeed: 'slow', // LED hızını 'slow' olarak ayarlayalım
-    fanSpeed: 'fast' // Fan hızını 'fast' olarak ayarlayalım
-  };
-
   // Veriyi index.ejs dosyasına gönderme
   res.render('index', { datas });
 });
 
 var datas = {
-  led_speed   : false,
-  led         : true,
-  fan         : true,
-  fan_speed   : true,
-  sg90        : true,
-  voice_text  : " "
+  led_speed   : 0,
+  led         : 0,
+  fan         : 0,
+  fan_speed   : 0,
+  sg90        : 0,
+  sg90_angle  : 0,
+  voice_text  : " ",
+  peltier     :   0,
+  peltier_speed : 0
 }
 
 var sensorDatas = {
@@ -62,7 +58,8 @@ app.get('/getDatas', (req,res) => {
 })
 
 app.post('/data', (req, res) => {
-  //console.log(req.body)
+  console.log("veri yolladi")
+  console.log(req.body)
   sensorDatas = req.body
   res.status(200).json(datas)
 });
