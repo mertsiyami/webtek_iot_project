@@ -50,9 +50,27 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data && data.message === "successful" && data.sensorDatas) {
                     const sensorDatas = data.sensorDatas;
+                    var gas;
+                    var rain;
+                    if(sensorDatas.gas == "1")
+                    {
+                        gas = "Gaz Yok"
+                    }
+                    else
+                    {
+                        gas = "Gaz Var"
+                    }
+                    if(sensorDatas.rain  == "1")
+                    {
+                        rain = "Yagmur Yok"
+                    }
+                    else
+                    {
+                        rain = "Yagmur Var"
+                    }
                     ldrValue.textContent = sensorDatas.ldr;
-                    gasValue.textContent = sensorDatas.gas;
-                    rainValue.textContent = sensorDatas.rain;
+                    gasValue.textContent = gas;
+                    rainValue.textContent = rain;
                     tempValue.textContent = sensorDatas.temperature + " °C";
                     
                     // Sensör kutularının renklerini değerlere göre güncelle
